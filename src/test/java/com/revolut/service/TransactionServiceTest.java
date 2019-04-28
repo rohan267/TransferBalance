@@ -39,7 +39,6 @@ public class TransactionServiceTest {
         assertEquals(result.isSuccess(), true);
     }
 
-
     @Test
     public void testTransferAmountNoBanalnce() {
         TransferResult result = transactionService.executeTransfer(1L, 2L,
