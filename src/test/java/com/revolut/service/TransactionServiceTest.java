@@ -2,7 +2,6 @@ package com.revolut.service;
 
 import com.revolut.accountservice.AccountserviceApplication;
 import com.revolut.model.TransferResult;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,16 +54,6 @@ public class TransactionServiceTest {
     public void testNegativeTransferAmount() {
         TransferResult result = transactionService.executeTransfer(1L, 2L,
                 new BigDecimal(-100.00));
-
-        assertEquals(new BigDecimal(10_000.00), accountService.getAccount(1L).getBalance());
-        assertEquals(new BigDecimal(20_000.00), accountService.getAccount(2L).getBalance());
-        assertEquals(result.isSuccess(), false);
-    }
-
-    @Test
-    public void testSameAccountNumbers() {
-        TransferResult result = transactionService.executeTransfer(1L, 1L,
-                new BigDecimal(11_000));
 
         assertEquals(new BigDecimal(10_000.00), accountService.getAccount(1L).getBalance());
         assertEquals(new BigDecimal(20_000.00), accountService.getAccount(2L).getBalance());

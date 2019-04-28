@@ -42,9 +42,9 @@ public class AccountController {
      * @return
      */
     @GetMapping(path = "/transfer")
-    public TransferResult transferAmount(@RequestParam(name = "fromAccount") long fromAccId
-            , @RequestParam(name = "toAccount") long toAccId
-            , @RequestParam(name = "transferAmount") BigDecimal transferAmount) {
+    public TransferResult transferAmount(@RequestParam(name = "fromAccount") long fromAccId,
+                                         @RequestParam(name = "toAccount") long toAccId,
+                                         @RequestParam(name = "transferAmount") BigDecimal transferAmount) {
 
         return transactionService.executeTransfer(fromAccId, toAccId, transferAmount);
     }
