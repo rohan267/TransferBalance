@@ -1,13 +1,15 @@
 # TransferBalance
 
 There are two hard coded accounts in the system
-Account one details:
-accountNumber: 1
-balance: 10,000
 
-Account two details:
-accountNumber: 2
-balance: 20,000
+<b>Account one details<b><br>
+accountNumber: 1<br>
+balance: 10,000<br>
+
+<b>Account two details<b><br>
+accountNumber: 2<br>
+balance: 20,000<br>
+
 
 To check the API status
 http://localhost:8081/account/index
