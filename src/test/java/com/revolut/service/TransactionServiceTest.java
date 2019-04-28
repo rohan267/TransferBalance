@@ -1,7 +1,6 @@
 package com.revolut.service;
 
 import com.revolut.accountservice.AccountserviceApplication;
-import com.revolut.model.Account;
 import com.revolut.model.TransferResult;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,55 +17,46 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(classes = AccountserviceApplication.class)
 public class TransactionServiceTest {
 
-    private Map<Long, Account> accounts = new HashMap<>();
+    @Autowired
+    private TransactionService transactionService;
+
+    @Autowired
+    private AccountService accountService;
 
     @Before
     public void setUp() throws Exception {
-        Account account1 = new Account();
-        account1.setBalance(new BigDecimal(10_000.00));
-
-        Account account2 = new Account();
-        account2.setBalance(new BigDecimal(20_000.00));
-
-        accounts.put(1L, account1);
-        accounts.put(2L, account2);
+        accountService.initiateAccounts();
     }
-
-    @Autowired
-    private TransactionService transactionService;
 
     @Test
     public void testTransferAmountSuccess() {
 
-        TransferResult result = transactionService.executeTransfer(accounts.get(1L),
-                accounts.get(2L),
+        TransferResult result = transactionService.executeTransfer(1L, 2L,
                 new BigDecimal(2000.00));
 
-        assertEquals(accounts.get(1L).getBalance(), new BigDecimal(8000.00));
-        assertEquals(accounts.get(2L).getBalance(), new BigDecimal(22_000.00));
+        assertEquals(new BigDecimal(8000.00), accountService.getAccount(1L).getBalance());
+        assertEquals(new BigDecimal(22_000.00), accountService.getAccount(2L).getBalance());
         assertEquals(result.isSuccess(), true);
     }
 
-    @Test
-    public void testTransferAmountSuccessReverse() {
-
-        TransferResult result = transactionService.executeTransfer(accounts.get(2L),
-                accounts.get(1L),
-                new BigDecimal(2000.00));
-
-        assertEquals(accounts.get(1L).getBalance(), new BigDecimal(12_000.00));
-        assertEquals(accounts.get(2L).getBalance(), new BigDecimal(18_000.00));
-        assertEquals(result.isSuccess(), true);
-    }
 
     @Test
     public void testTransferAmountNoBanalnce() {
-        TransferResult result = transactionService.executeTransfer(accounts.get(1L),
-                accounts.get(2L),
+        TransferResult result = transactionService.executeTransfer(1L, 2L,
                 new BigDecimal(11_000));
 
-        assertEquals(accounts.get(1L).getBalance(), new BigDecimal(10_000.00));
-        assertEquals(accounts.get(2L).getBalance(), new BigDecimal(20_000.00));
+        assertEquals(new BigDecimal(10_000.00), accountService.getAccount(1L).getBalance());
+        assertEquals(new BigDecimal(20_000.00), accountService.getAccount(2L).getBalance());
+        assertEquals(result.isSuccess(), false);
+    }
+
+    @Test
+    public void testNegativeTransferAmount() {
+        TransferResult result = transactionService.executeTransfer(1L, 2L,
+                new BigDecimal(-100.00));
+
+        assertEquals(new BigDecimal(10_000.00), accountService.getAccount(1L).getBalance());
+        assertEquals(new BigDecimal(20_000.00), accountService.getAccount(2L).getBalance());
         assertEquals(result.isSuccess(), false);
     }
 }

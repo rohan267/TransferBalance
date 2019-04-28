@@ -1,6 +1,5 @@
 package com.revolut.accountservice;
 
-import com.revolut.model.Account;
 import com.revolut.model.TransferResult;
 import com.revolut.service.AccountService;
 import com.revolut.service.TransactionService;
@@ -43,16 +42,10 @@ public class AccountController {
      * @return
      */
     @GetMapping(path = "/transfer")
-    public TransferResult transferAmount(@RequestParam(name = "fromAccount") long fromAccId
-            , @RequestParam(name = "toAccount") long toAccId
-            , @RequestParam(name = "transferAmount") BigDecimal transferAmount) {
+    public TransferResult transferAmount(@RequestParam(name = "fromAccount") long fromAccId,
+                                         @RequestParam(name = "toAccount") long toAccId,
+                                         @RequestParam(name = "transferAmount") BigDecimal transferAmount) {
 
-        Account fromAccount = accountService.getAccount(fromAccId);
-        Account toAccount = accountService.getAccount(toAccId);
-
-        System.out.println("Account1: " + fromAccount.getAccountNumber() + " " + fromAccount.getBalance());
-        System.out.println("Account2: " + toAccount.getAccountNumber() + " " + toAccount.getBalance());
-
-        return transactionService.executeTransfer(fromAccount, toAccount, transferAmount);
+        return transactionService.executeTransfer(fromAccId, toAccId, transferAmount);
     }
 }

@@ -14,19 +14,22 @@ public class TransactionService {
     @Autowired
     AccountService accountService;
 
-    public TransferResult executeTransfer(Account fromAccount, Account toAccount, BigDecimal transferAmount) {
+    public TransferResult executeTransfer(long fromAccountId, long toAccountId, BigDecimal transferAmount) {
         TransferResult transferResult = new TransferResult();
+
+        Account fromAccount = accountService.getAccount(fromAccountId);
+        Account toAccount = accountService.getAccount(toAccountId);
 
         if (!ValidationUtil.isValidTransfer(fromAccount, toAccount, transferAmount, transferResult)) {
             return transferResult;
         }
-
         fromAccount.withdraw(transferAmount);
         toAccount.deposit(transferAmount);
 
-        transferResult.setReason("Transfer success");
+        transferResult.addReason("Transfer success");
         transferResult.setSuccess(true);
 
         return transferResult;
+
     }
 }
