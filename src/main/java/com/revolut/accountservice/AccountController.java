@@ -37,14 +37,14 @@ public class AccountController {
      * Account 1 balance is 10,000
      * Account 2 balance is 20,000
      *
-     * @param toAccId
+     * @param fromAccId
      * @param toAccId
      * @param transferAmount
      * @return
      */
     @GetMapping(path = "/transfer")
-    public TransferResult transferAmount(@RequestParam(name = "fromAccount") long fromAccId,
-                                         @RequestParam(name = "toAccount") long toAccId
+    public TransferResult transferAmount(@RequestParam(name = "fromAccount") long fromAccId
+            , @RequestParam(name = "toAccount") long toAccId
             , @RequestParam(name = "transferAmount") BigDecimal transferAmount) {
 
         Account fromAccount = accountService.getAccount(fromAccId);
