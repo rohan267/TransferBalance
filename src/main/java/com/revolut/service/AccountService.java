@@ -29,6 +29,11 @@ public class AccountService {
             if (account.getAccountNumber() == fromAccountId)
                 return account;
         }
+
         return null;
+    }
+
+    public void initiateAccounts() {
+        new AccountService();
     }
 }
