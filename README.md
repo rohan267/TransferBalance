@@ -2,11 +2,11 @@
 
 There are two hard coded accounts in the system
 
-<b>Account one details<b><br>
+<b>Account one details</b><br>
 accountNumber: 1<br>
 balance: 10,000<br>
 
-<b>Account two details<b><br>
+<b>Account two details</b><br>
 accountNumber: 2<br>
 balance: 20,000<br>
 
