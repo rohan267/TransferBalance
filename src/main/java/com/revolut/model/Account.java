@@ -15,7 +15,7 @@ public class Account {
     }
 
     public Account(long accountNumber, BigDecimal balance) {
-        this.accountCurrencyType = accountHolderName;
+        this.accountNumber = accountNumber;
         this.balance = balance;
     }
 
